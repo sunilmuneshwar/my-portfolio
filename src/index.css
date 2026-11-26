@@ -1,0 +1,167 @@
+@import "tailwindcss";
+
+:root {
+  --primary: #101c30;
+  --secondary: #172942;
+  --orange: #f47721;
+  --white: #ffffff;
+  --light: #fff6ef;
+  --light-soft: #ffefe2;
+  --text: #5a6577;
+
+  --orange-hover: #d96414;
+  --border-color: #f3dfd0;
+  --shadow-color: rgba(244, 119, 33, 0.14);
+}
+
+@layer base {
+  html {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    scroll-behavior: smooth;
+    color: var(--primary);
+    background-color: var(--white);
+    overflow-x: clip;
+  }
+
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: var(--primary);
+    background-color: var(--white);
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--orange);
+    outline-offset: 2px;
+  }
+}
+
+/* Deep navy hero enriched with warm orange atmospheric glow */
+.hero-orange-bg {
+  background-color: var(--primary);
+  background-image:
+    radial-gradient(640px circle at 82% 28%, rgba(244, 119, 33, 0.24), transparent 62%),
+    radial-gradient(520px circle at 12% 85%, rgba(244, 119, 33, 0.14), transparent 60%),
+    linear-gradient(135deg, #101c30 0%, #172942 52%, #1d2436 100%);
+}
+
+/* Warm apricot-ivory alternating section background matching #f47721 orange */
+.warm-section-bg {
+  background-color: var(--light);
+  background-image: linear-gradient(180deg, #fff6ef 0%, #fffaf6 100%);
+}
+
+/* Orange animated headline gradient */
+.accent-gradient-text {
+  background: linear-gradient(90deg, #f47721 0%, #ffa35c 48%, #f47721 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: accentShimmer 6s ease-in-out infinite;
+}
+
+@keyframes accentShimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Gentle floating profile & decorative motion */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes floatSubtle {
+  0%, 100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
+@keyframes blinkCaret {
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.animate-float-subtle {
+  animation: floatSubtle 4.8s ease-in-out infinite;
+}
+
+.animate-float-subtle-delayed {
+  animation: floatSubtle 5.4s ease-in-out 1.2s infinite;
+}
+
+.typing-caret {
+  animation: blinkCaret 0.9s steps(1, end) infinite;
+}
+
+/* Primary elevated surface */
+.portfolio-card {
+  background-color: var(--white);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 12px 30px -16px var(--shadow-color);
+  transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.portfolio-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--orange);
+  box-shadow: 0 20px 38px -16px rgba(244, 119, 33, 0.24);
+}
+
+/* Glass floating badge cards on warm-lit navy hero */
+.glass-navy-card {
+  background: rgba(23, 41, 66, 0.84);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(244, 119, 33, 0.28);
+  box-shadow: 0 14px 28px -12px rgba(0, 0, 0, 0.42);
+}
+
+/* Reduced motion compliance */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .accent-gradient-text,
+  .animate-float-slow,
+  .animate-float-subtle,
+  .animate-float-subtle-delayed,
+  .typing-caret {
+    animation: none !important;
+  }
+
+  .portfolio-card {
+    transition: none !important;
+  }
+
+  .portfolio-card:hover {
+    transform: none !important;
+  }
+}
