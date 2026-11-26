@@ -142,8 +142,13 @@ export const SERVICES_LIST: ServiceItem[] = [
   },
 ];
 
+export const DEFAULT_RESUME_URL =
+  '/assets/aistudio/Sunil_Govind_Muneshwar_Digital_Marketing_Resume_78c7040f.pdf';
+
 export const DEFAULT_PORTFOLIO_STATE: PortfolioState = {
   profilePhoto: '/assets/aistudio/sunil_d9b21534.jpeg',
+  resumeUrl: DEFAULT_RESUME_URL,
+  resumeFileName: 'Sunil-Govind-Muneshwar-Resume.pdf',
   skillCategories: [
     {
       id: 'cat-windows',
@@ -441,10 +446,10 @@ export const DEFAULT_PORTFOLIO_STATE: PortfolioState = {
   contact: {
     email: 'sunilmuneshwar33@gmail.com',
     phone: '9666117032',
-    location: 'India',
+    location: 'Hyderabad / Nanded, India',
     linkedinUrl: 'https://www.linkedin.com',
     githubUrl: 'https://github.com',
-    whatsappNumber: '+910000000000',
+    whatsappNumber: '+91 9666117032',
   },
 };
 

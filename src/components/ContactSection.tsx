@@ -2,16 +2,21 @@ import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import {
   AlertCircle,
-  CheckCircle2,
   Loader2,
   Mail,
   MapPin,
   Pencil,
   Phone,
   Send,
+  X,
 } from 'lucide-react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import type { ContactDetails } from '../types/portfolio';
-import { sanitizeExternalUrl } from '../types/portfolio';
+import {
+  formatPhoneForTel,
+  formatPhoneForWhatsApp,
+  sanitizeExternalUrl,
+} from '../types/portfolio';
 import { isSupabaseConfigured, supabase } from '../lib/supabase';
 import { GitHubIcon, LinkedInIcon, WhatsAppIcon } from './BrandIcons';
 import { Reveal } from './Reveal';
@@ -50,6 +55,7 @@ export function ContactSection({
     message: string;
     referenceId?: string;
   } | null>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     if (prefilledSubject) {
@@ -211,7 +217,8 @@ export function ContactSection({
 
   const safeLinkedIn = sanitizeExternalUrl(contact.linkedinUrl) || 'https://www.linkedin.com';
   const safeGitHub = sanitizeExternalUrl(contact.githubUrl) || 'https://github.com';
-  const cleanWhatsApp = contact.whatsappNumber.replace(/[^\d]/g, '');
+  const telHref = formatPhoneForTel(contact.phone);
+  const whatsAppHref = formatPhoneForWhatsApp(contact.whatsappNumber, contact.phone);
 
   return (
     <section id="contact" className="warm-section-bg py-20 lg:py-24">
@@ -275,7 +282,7 @@ export function ContactSection({
                       <dt className="text-xs font-semibold text-[#f47721]">Phone Number</dt>
                       <dd className="mt-0.5 text-sm font-medium text-white tabular-nums">
                         <a
-                          href={`tel:${contact.phone.replace(/[^\d+]/g, '')}`}
+                          href={telHref || '#contact'}
                           className="transition-colors hover:text-[#f47721]"
                         >
                           {contact.phone}
@@ -296,9 +303,31 @@ export function ContactSection({
                 </dl>
               </div>
 
-              {/* Social Links */}
+              {/* Direct Call, WhatsApp Call & Social Links */}
               <div className="mt-8 border-t border-white/15 pt-6">
-                <p className="text-xs font-semibold text-[#f47721]">Connect Online</p>
+                <p className="text-xs font-semibold text-[#f47721]">Direct Call &amp; Connect</p>
+                <div className="mt-3 grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                  {telHref && (
+                    <a
+                      href={telHref}
+                      className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-[#f47721] px-4 py-2.5 text-xs font-semibold text-[#101c30] shadow-[0_8px_18px_-8px_rgba(244,119,33,0.6)] transition-colors hover:bg-[#ff8a3a]"
+                    >
+                      <Phone className="h-4 w-4" aria-hidden="true" />
+                      <span>Call Now</span>
+                    </a>
+                  )}
+                  {whatsAppHref && (
+                    <a
+                      href={whatsAppHref}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-[#f47721]/60 bg-[#101c30] px-4 py-2.5 text-xs font-semibold text-white transition-colors hover:border-[#f47721] hover:bg-[#f47721] hover:text-[#101c30]"
+                    >
+                      <WhatsAppIcon className="h-4 w-4 text-[#f47721] transition-colors group-hover:text-[#101c30]" />
+                      <span>WhatsApp Call</span>
+                    </a>
+                  )}
+                </div>
                 <div className="mt-3 flex flex-wrap items-center gap-3">
                   <a
                     href={safeLinkedIn}
@@ -317,15 +346,6 @@ export function ContactSection({
                   >
                     <GitHubIcon className="h-4 w-4 text-[#f47721]" />
                     <span>GitHub</span>
-                  </a>
-                  <a
-                    href={cleanWhatsApp ? `https://wa.me/${cleanWhatsApp}` : '#contact'}
-                    target={cleanWhatsApp ? '_blank' : undefined}
-                    rel={cleanWhatsApp ? 'noopener noreferrer' : undefined}
-                    className="inline-flex min-h-[42px] items-center gap-2 rounded-lg border border-white/15 bg-[#101c30] px-3.5 py-2 text-xs font-semibold text-white transition-colors hover:border-[#f47721] hover:text-[#f47721]"
-                  >
-                    <WhatsAppIcon className="h-4 w-4 text-[#f47721]" />
-                    <span>WhatsApp</span>
                   </a>
                 </div>
               </div>
@@ -490,41 +510,111 @@ export function ContactSection({
                 )}
               </div>
 
-              {submitResult && (
-                <div
-                  role={submitResult.type === 'error' ? 'alert' : 'status'}
-                  className={`mt-5 flex items-start gap-3 rounded-xl border p-4 text-sm ${
-                    submitResult.type === 'success'
-                      ? 'border-[#f3dfd0] bg-[#fff6ef] text-[#101c30]'
-                      : 'border-[#f47721]/50 bg-[#f47721]/10 text-[#101c30]'
-                  }`}
-                >
-                  {submitResult.type === 'success' ? (
-                    <CheckCircle2
-                      className="mt-0.5 h-5 w-5 shrink-0 text-[#f47721]"
-                      aria-hidden="true"
-                    />
-                  ) : (
-                    <AlertCircle
-                      className="mt-0.5 h-5 w-5 shrink-0 text-[#c2540a]"
-                      aria-hidden="true"
-                    />
-                  )}
-                  <div>
-                    <p className="font-semibold">
-                      {submitResult.type === 'success' ? 'Message Received' : 'Submission Issue'}
-                    </p>
-                    <p className="mt-0.5 text-xs leading-relaxed text-[#64748b]">
-                      {submitResult.message}
-                    </p>
-                    {submitResult.referenceId && (
-                      <p className="mt-1 text-xs font-medium text-[#172942] tabular-nums">
-                        Reference: {submitResult.referenceId}
-                      </p>
+              <AnimatePresence mode="wait">
+                {submitResult && (
+                  <motion.div
+                    key={`${submitResult.type}-${submitResult.message}`}
+                    role={submitResult.type === 'error' ? 'alert' : 'status'}
+                    initial={
+                      prefersReducedMotion
+                        ? { opacity: 0 }
+                        : { opacity: 0, y: 12, scale: 0.97 }
+                    }
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={
+                      prefersReducedMotion
+                        ? { opacity: 0 }
+                        : { opacity: 0, y: -8, scale: 0.98 }
+                    }
+                    transition={
+                      prefersReducedMotion
+                        ? { duration: 0.15 }
+                        : { type: 'spring', stiffness: 360, damping: 28, mass: 0.85 }
+                    }
+                    className={`mt-5 relative flex items-start gap-3.5 overflow-hidden rounded-xl border p-4 text-sm ${
+                      submitResult.type === 'success'
+                        ? 'border-[#f47721]/35 bg-[#fff6ef] text-[#101c30] shadow-[0_10px_24px_-14px_rgba(244,119,33,0.45)]'
+                        : 'border-[#f47721]/50 bg-[#f47721]/10 text-[#101c30]'
+                    }`}
+                  >
+                    {submitResult.type === 'success' ? (
+                      <div className="relative mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center">
+                        {!prefersReducedMotion && (
+                          <motion.span
+                            aria-hidden="true"
+                            initial={{ scale: 0.65, opacity: 0.7 }}
+                            animate={{ scale: 1.55, opacity: 0 }}
+                            transition={{ duration: 0.75, ease: 'easeOut' }}
+                            className="absolute inset-0 rounded-full bg-[#f47721]/35"
+                          />
+                        )}
+                        <motion.span
+                          initial={prefersReducedMotion ? false : { scale: 0.6, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ type: 'spring', stiffness: 420, damping: 22 }}
+                          className="relative flex h-9 w-9 items-center justify-center rounded-full bg-[#f47721] text-white shadow-xs"
+                        >
+                          <svg
+                            viewBox="0 0 24 24"
+                            className="h-5 w-5"
+                            fill="none"
+                            aria-hidden="true"
+                          >
+                            <motion.path
+                              d="M5 13l4 4L19 7"
+                              stroke="currentColor"
+                              strokeWidth="2.6"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              initial={prefersReducedMotion ? { pathLength: 1 } : { pathLength: 0 }}
+                              animate={{ pathLength: 1 }}
+                              transition={{ duration: 0.42, delay: 0.12, ease: 'easeOut' }}
+                            />
+                          </svg>
+                        </motion.span>
+                      </div>
+                    ) : (
+                      <AlertCircle
+                        className="mt-0.5 h-5 w-5 shrink-0 text-[#c2540a]"
+                        aria-hidden="true"
+                      />
                     )}
-                  </div>
-                </div>
-              )}
+                    <div className="min-w-0 flex-1 pr-6">
+                      <motion.p
+                        initial={prefersReducedMotion ? false : { opacity: 0, x: -4 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.25, delay: 0.08 }}
+                        className="font-semibold text-[#101c30]"
+                      >
+                        {submitResult.type === 'success'
+                          ? 'Message Sent Successfully'
+                          : 'Submission Issue'}
+                      </motion.p>
+                      <motion.p
+                        initial={prefersReducedMotion ? false : { opacity: 0, x: -4 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.28, delay: 0.14 }}
+                        className="mt-0.5 text-xs leading-relaxed text-[#5a6577]"
+                      >
+                        {submitResult.message}
+                      </motion.p>
+                      {submitResult.referenceId && (
+                        <p className="mt-1 text-xs font-medium text-[#172942] tabular-nums">
+                          Reference: {submitResult.referenceId}
+                        </p>
+                      )}
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setSubmitResult(null)}
+                      aria-label="Dismiss notification"
+                      className="absolute top-3 right-3 inline-flex h-7 w-7 items-center justify-center rounded-md text-[#64748b] transition-colors hover:bg-[#101c30]/5 hover:text-[#101c30] cursor-pointer"
+                    >
+                      <X className="h-3.5 w-3.5" aria-hidden="true" />
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
 
               <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
                 <button

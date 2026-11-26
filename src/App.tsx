@@ -56,9 +56,16 @@ function loadSavedPortfolio(): PortfolioState {
       parsed.contact
     ) {
       const loaded = parsed as PortfolioState;
+      const savedWaDigits = (loaded.contact?.whatsappNumber || '').replace(/[^\d]/g, '');
       return {
         ...loaded,
         profilePhoto: loaded.profilePhoto || DEFAULT_PORTFOLIO_STATE.profilePhoto,
+        resumeUrl:
+          !loaded.resumeUrl || loaded.resumeUrl === '/assets/documents/resume.pdf'
+            ? DEFAULT_PORTFOLIO_STATE.resumeUrl
+            : loaded.resumeUrl,
+        resumeFileName:
+          loaded.resumeFileName || DEFAULT_PORTFOLIO_STATE.resumeFileName,
         contact: {
           ...loaded.contact,
           email:
@@ -69,6 +76,10 @@ function loadSavedPortfolio(): PortfolioState {
             !loaded.contact?.phone || loaded.contact.phone === '+91 00000 00000'
               ? DEFAULT_PORTFOLIO_STATE.contact.phone
               : loaded.contact.phone,
+          whatsappNumber:
+            !savedWaDigits || savedWaDigits === '910000000000'
+              ? DEFAULT_PORTFOLIO_STATE.contact.whatsappNumber
+              : loaded.contact.whatsappNumber,
         },
       };
     }
@@ -107,6 +118,31 @@ export default function App() {
       // Ignore storage quota issues gracefully
     }
   }, [portfolio]);
+
+  // Resolve canonical URL and absolute Open Graph / Twitter image URLs for current host
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.location?.origin) return;
+    const canonicalUrl = `${window.location.origin}${window.location.pathname}`;
+    const absoluteOgImage = `${window.location.origin}/src/assets/images/about_infrastructure_studio_1795614058416.jpg`;
+
+    let canonicalLink = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.setAttribute('href', canonicalUrl);
+
+    const setMeta = (selector: string, content: string) => {
+      const el = document.querySelector<HTMLMetaElement>(selector);
+      if (el) el.setAttribute('content', content);
+    };
+
+    setMeta('meta[property="og:url"]', canonicalUrl);
+    setMeta('meta[property="og:image"]', absoluteOgImage);
+    setMeta('meta[property="og:image:secure_url"]', absoluteOgImage);
+    setMeta('meta[name="twitter:image"]', absoluteOgImage);
+  }, []);
 
   // Active navigation scroll spy
   useEffect(() => {
@@ -154,6 +190,8 @@ export default function App() {
       <main id="main-content">
         <HeroSection
           profilePhoto={portfolio.profilePhoto}
+          resumeUrl={portfolio.resumeUrl}
+          resumeFileName={portfolio.resumeFileName}
           contact={portfolio.contact}
           onUploadPhoto={(dataUrl) =>
             setPortfolio((prev) => ({ ...prev, profilePhoto: dataUrl }))
@@ -161,6 +199,7 @@ export default function App() {
           onRemovePhoto={() =>
             setPortfolio((prev) => ({ ...prev, profilePhoto: undefined }))
           }
+          onManageResume={() => setCustomizerOpen(true)}
           onExploreWork={() =>
             document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
           }
@@ -341,6 +380,9 @@ export default function App() {
         <PortfolioCustomizerModal
           state={portfolio}
           onClose={() => setCustomizerOpen(false)}
+          onUpdateResume={(resumeUrl, resumeFileName) =>
+            setPortfolio((prev) => ({ ...prev, resumeUrl, resumeFileName }))
+          }
           onImportState={(next) => setPortfolio(next)}
           onResetState={() => setPortfolio(DEFAULT_PORTFOLIO_STATE)}
         />

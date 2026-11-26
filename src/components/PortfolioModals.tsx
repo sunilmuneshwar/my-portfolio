@@ -4,6 +4,7 @@ import {
   Check,
   Download,
   ExternalLink,
+  FileText,
   ImagePlus,
   Plus,
   RotateCcw,
@@ -11,6 +12,7 @@ import {
   Upload,
   X,
 } from 'lucide-react';
+import { DEFAULT_RESUME_URL } from '../data/defaultPortfolio';
 import type {
   CertificationItem,
   ContactDetails,
@@ -21,7 +23,7 @@ import type {
   ServiceItem,
   SkillCategory,
 } from '../types/portfolio';
-import { sanitizeExternalUrl } from '../types/portfolio';
+import { sanitizeExternalUrl, sanitizeResumeUrl } from '../types/portfolio';
 
 interface ModalShellProps {
   title: string;
@@ -1077,20 +1079,67 @@ export function EditContactModal({
   );
 }
 
-/* 8. Portfolio Backup / Export / Reset Modal */
+/* 8. Portfolio Resume, Backup / Export / Reset Modal */
 export function PortfolioCustomizerModal({
   state,
+  onUpdateResume,
   onImportState,
   onResetState,
   onClose,
 }: {
   state: PortfolioState;
+  onUpdateResume: (resumeUrl: string, resumeFileName?: string) => void;
   onImportState: (next: PortfolioState) => void;
   onResetState: () => void;
   onClose: () => void;
 }) {
   const [statusMessage, setStatusMessage] = useState<string | null>(null);
+  const [resumeUrlInput, setResumeUrlInput] = useState(
+    state.resumeUrl?.startsWith('data:') ? '' : state.resumeUrl || DEFAULT_RESUME_URL
+  );
+  const [resumeError, setResumeError] = useState<string | null>(null);
   const importRef = useRef<HTMLInputElement | null>(null);
+  const resumeFileRef = useRef<HTMLInputElement | null>(null);
+
+  const activeResumeUrl = sanitizeResumeUrl(state.resumeUrl) || DEFAULT_RESUME_URL;
+
+  const handleResumeUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    setResumeError(null);
+    const file = event.target.files?.[0];
+    if (!file) return;
+    if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+      setResumeError('Please select a valid PDF file (.pdf).');
+      return;
+    }
+    if (file.size > 4 * 1024 * 1024) {
+      setResumeError('PDF file must be 4 MB or smaller to save in browser storage.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string' && reader.result.startsWith('data:application/pdf;base64,')) {
+        onUpdateResume(reader.result, file.name);
+        setResumeUrlInput('');
+        setStatusMessage(`Uploaded "${file.name}" as the active Download Resume PDF.`);
+      } else {
+        setResumeError('Unable to read the selected PDF file.');
+      }
+    };
+    reader.readAsDataURL(file);
+    event.target.value = '';
+  };
+
+  const handleSaveResumeUrl = (event: FormEvent) => {
+    event.preventDefault();
+    setResumeError(null);
+    const safe = sanitizeResumeUrl(resumeUrlInput);
+    if (!safe) {
+      setResumeError('Enter a valid hosted PDF link starting with https:// or /assets/...');
+      return;
+    }
+    onUpdateResume(safe, 'Sunil-Govind-Muneshwar-Resume.pdf');
+    setStatusMessage('Updated Download Resume link.');
+  };
 
   const handleExport = () => {
     const blob = new Blob([JSON.stringify(state, null, 2)], { type: 'application/json' });
@@ -1133,17 +1182,106 @@ export function PortfolioCustomizerModal({
 
   return (
     <ModalShell
-      title="Portfolio Content Manager"
-      subtitle="All inline edits are saved automatically in your browser. Export your JSON anytime."
+      title="Resume & Portfolio Content Manager"
+      subtitle="Upload or link your resume PDF and export or restore your portfolio data."
       onClose={onClose}
     >
-      <p className="text-sm leading-relaxed text-[#64748b]">
-        You can customize your portrait photo, technical skill proficiency indicators,
+      {/* Resume PDF Upload / Hosted Link Section */}
+      <div className="rounded-xl border border-[#f3dfd0] bg-[#fff6ef] p-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#101c30] text-[#f47721]">
+              <FileText className="h-4 w-4" aria-hidden="true" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-[#101c30]">Resume PDF File</p>
+              <p className="text-xs text-[#64748b]">
+                Active file: {state.resumeFileName || 'Sunil-Govind-Muneshwar-Resume.pdf'}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => resumeFileRef.current?.click()}
+              className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg bg-[#f47721] px-3.5 py-2 text-xs font-semibold text-[#101c30] hover:bg-[#ff8a3a] cursor-pointer"
+            >
+              <Upload className="h-3.5 w-3.5" aria-hidden="true" />
+              Upload PDF
+            </button>
+            <a
+              href={activeResumeUrl}
+              download={
+                /^https?:\/\//i.test(activeResumeUrl)
+                  ? undefined
+                  : state.resumeFileName || 'Sunil-Govind-Muneshwar-Resume.pdf'
+              }
+              target={/^https?:\/\//i.test(activeResumeUrl) ? '_blank' : undefined}
+              rel={/^https?:\/\//i.test(activeResumeUrl) ? 'noopener noreferrer' : undefined}
+              className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg border border-[#101c30] bg-white px-3 py-2 text-xs font-semibold text-[#101c30] hover:bg-[#fff6ef]"
+            >
+              <Download className="h-3.5 w-3.5 text-[#f47721]" aria-hidden="true" />
+              Test Download
+            </a>
+          </div>
+        </div>
+
+        <form onSubmit={handleSaveResumeUrl} className="mt-3.5 flex flex-col gap-2 sm:flex-row">
+          <input
+            type="text"
+            value={resumeUrlInput}
+            onChange={(e) => {
+              setResumeUrlInput(e.target.value);
+              if (resumeError) setResumeError(null);
+            }}
+            placeholder="https://example.com/sunil-resume.pdf or /assets/..."
+            aria-label="Hosted Resume PDF URL"
+            className="flex-1 rounded-lg border border-[#f3dfd0] bg-white px-3 py-2 text-xs text-[#101c30] focus:border-[#f47721] focus:outline-none"
+          />
+          <button
+            type="submit"
+            className="inline-flex min-h-[38px] items-center justify-center rounded-lg bg-[#101c30] px-4 py-2 text-xs font-semibold text-white hover:bg-[#172942] cursor-pointer"
+          >
+            Save Link
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              onUpdateResume(DEFAULT_RESUME_URL, 'Sunil-Govind-Muneshwar-Resume.pdf');
+              setResumeUrlInput(DEFAULT_RESUME_URL);
+              setResumeError(null);
+              setStatusMessage('Restored default Sunil Govind Muneshwar Resume PDF.');
+            }}
+            className="inline-flex min-h-[38px] items-center justify-center rounded-lg border border-[#f3dfd0] bg-white px-3 py-2 text-xs font-semibold text-[#101c30] hover:border-[#f47721] cursor-pointer"
+          >
+            Default PDF
+          </button>
+        </form>
+
+        <input
+          ref={resumeFileRef}
+          type="file"
+          accept="application/pdf,.pdf"
+          onChange={handleResumeUpload}
+          className="hidden"
+          aria-label="Upload resume PDF file"
+        />
+
+        {resumeError && (
+          <p role="alert" className="mt-2 text-xs font-semibold text-[#c2540a]">
+            {resumeError}
+          </p>
+        )}
+      </div>
+
+      <p className="mt-5 text-sm leading-relaxed text-[#64748b]">
+        You can also customize your portrait photo, technical skill proficiency indicators,
         experience entries, project cards, certification credentials, and contact links
         directly on the page using each section&apos;s Edit button.
       </p>
 
-      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
         <button
           type="button"
           onClick={handleExport}
@@ -1166,6 +1304,7 @@ export function PortfolioCustomizerModal({
           type="button"
           onClick={() => {
             onResetState();
+            setResumeUrlInput(DEFAULT_RESUME_URL);
             setStatusMessage('Restored default portfolio templates.');
           }}
           className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-[#f3dfd0] bg-white px-4 py-2.5 text-xs font-semibold text-[#101c30] hover:border-[#f47721] hover:bg-[#fff6ef] cursor-pointer"

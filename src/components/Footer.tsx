@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
-import { ArrowUp, Mail } from 'lucide-react';
+import { ArrowUp, Mail, Phone } from 'lucide-react';
 import type { ContactDetails } from '../types/portfolio';
-import { sanitizeExternalUrl } from '../types/portfolio';
+import {
+  formatPhoneForTel,
+  formatPhoneForWhatsApp,
+  sanitizeExternalUrl,
+} from '../types/portfolio';
 import { GitHubIcon, LinkedInIcon, WhatsAppIcon } from './BrandIcons';
 
 interface FooterProps {
@@ -36,7 +40,8 @@ export function Footer({ contact }: FooterProps) {
 
   const safeLinkedIn = sanitizeExternalUrl(contact.linkedinUrl) || 'https://www.linkedin.com';
   const safeGitHub = sanitizeExternalUrl(contact.githubUrl) || 'https://github.com';
-  const cleanWhatsApp = contact.whatsappNumber.replace(/[^\d]/g, '');
+  const telHref = formatPhoneForTel(contact.phone);
+  const whatsAppHref = formatPhoneForWhatsApp(contact.whatsappNumber, contact.phone);
 
   return (
     <footer className="bg-[#101c30] text-white">
@@ -85,7 +90,25 @@ export function Footer({ contact }: FooterProps) {
           {/* Social Links */}
           <div className="md:col-span-3">
             <h2 className="text-sm font-semibold text-[#f47721]">Connect</h2>
-            <div className="mt-4 flex items-center gap-2.5">
+            <div className="mt-4 flex flex-wrap items-center gap-2.5">
+              {telHref && (
+                <a
+                  href={telHref}
+                  aria-label={`Call ${contact.phone}`}
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#172942] text-white transition-colors hover:bg-[#f47721] hover:text-[#101c30]"
+                >
+                  <Phone className="h-4 w-4" aria-hidden="true" />
+                </a>
+              )}
+              <a
+                href={whatsAppHref || '#contact'}
+                target={whatsAppHref ? '_blank' : undefined}
+                rel={whatsAppHref ? 'noopener noreferrer' : undefined}
+                aria-label="WhatsApp Call and Chat"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#172942] text-white transition-colors hover:bg-[#f47721] hover:text-[#101c30]"
+              >
+                <WhatsAppIcon className="h-4 w-4" />
+              </a>
               <a
                 href={safeLinkedIn}
                 target="_blank"
@@ -103,15 +126,6 @@ export function Footer({ contact }: FooterProps) {
                 className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#172942] text-white transition-colors hover:bg-[#f47721] hover:text-[#101c30]"
               >
                 <GitHubIcon className="h-4 w-4" />
-              </a>
-              <a
-                href={cleanWhatsApp ? `https://wa.me/${cleanWhatsApp}` : '#contact'}
-                target={cleanWhatsApp ? '_blank' : undefined}
-                rel={cleanWhatsApp ? 'noopener noreferrer' : undefined}
-                aria-label="WhatsApp"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-[#172942] text-white transition-colors hover:bg-[#f47721] hover:text-[#101c30]"
-              >
-                <WhatsAppIcon className="h-4 w-4" />
               </a>
               <a
                 href={`mailto:${contact.email}`}

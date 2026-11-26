@@ -6,31 +6,44 @@ import {
   Camera,
   Cloud,
   Download,
+  FileUp,
   Mail,
   Network,
+  Phone,
   Server,
   ShieldCheck,
   Trash2,
 } from 'lucide-react';
-import { HERO_ROLES } from '../data/defaultPortfolio';
+import { DEFAULT_RESUME_URL, HERO_ROLES } from '../data/defaultPortfolio';
 import type { ContactDetails } from '../types/portfolio';
-import { sanitizeExternalUrl } from '../types/portfolio';
+import {
+  formatPhoneForTel,
+  formatPhoneForWhatsApp,
+  sanitizeExternalUrl,
+  sanitizeResumeUrl,
+} from '../types/portfolio';
 import { GitHubIcon, LinkedInIcon, WhatsAppIcon } from './BrandIcons';
 
 interface HeroSectionProps {
   profilePhoto?: string;
+  resumeUrl?: string;
+  resumeFileName?: string;
   contact: ContactDetails;
   onUploadPhoto: (dataUrl: string) => void;
   onRemovePhoto: () => void;
+  onManageResume: () => void;
   onExploreWork: () => void;
   onContactClick: () => void;
 }
 
 export function HeroSection({
   profilePhoto,
+  resumeUrl,
+  resumeFileName,
   contact,
   onUploadPhoto,
   onRemovePhoto,
+  onManageResume,
   onExploreWork,
   onContactClick,
 }: HeroSectionProps) {
@@ -97,8 +110,10 @@ export function HeroSection({
 
   const safeLinkedIn = sanitizeExternalUrl(contact.linkedinUrl) || 'https://www.linkedin.com';
   const safeGitHub = sanitizeExternalUrl(contact.githubUrl) || 'https://github.com';
-  const cleanWhatsApp = contact.whatsappNumber.replace(/[^\d]/g, '');
-  const whatsAppHref = cleanWhatsApp ? `https://wa.me/${cleanWhatsApp}` : '#contact';
+  const safeResumeUrl = sanitizeResumeUrl(resumeUrl) || DEFAULT_RESUME_URL;
+  const isExternalResume = /^https?:\/\//i.test(safeResumeUrl);
+  const telHref = formatPhoneForTel(contact.phone);
+  const whatsAppHref = formatPhoneForWhatsApp(contact.whatsappNumber, contact.phone);
 
   return (
     <section
@@ -165,14 +180,27 @@ export function HeroSection({
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </button>
 
-              <a
-                href="/assets/documents/resume.pdf"
-                download="Sunil-Muneshwar-Resume.pdf"
-                className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-lg border border-white/25 bg-[#172942] px-5 py-3 text-sm font-semibold text-white whitespace-nowrap shrink-0 transition-all duration-150 hover:border-[#f47721] hover:text-[#f47721] hover:-translate-y-0.5"
-              >
-                <Download className="h-4 w-4" aria-hidden="true" />
-                Download Resume
-              </a>
+              <div className="inline-flex items-stretch">
+                <a
+                  href={safeResumeUrl}
+                  download={isExternalResume ? undefined : resumeFileName || 'Sunil-Govind-Muneshwar-Resume.pdf'}
+                  target={isExternalResume ? '_blank' : undefined}
+                  rel={isExternalResume ? 'noopener noreferrer' : undefined}
+                  className="inline-flex min-h-[46px] items-center justify-center gap-2 rounded-l-lg border border-white/25 bg-[#172942] px-5 py-3 text-sm font-semibold text-white whitespace-nowrap shrink-0 transition-all duration-150 hover:border-[#f47721] hover:text-[#f47721]"
+                >
+                  <Download className="h-4 w-4 text-[#f47721]" aria-hidden="true" />
+                  Download Resume
+                </a>
+                <button
+                  type="button"
+                  onClick={onManageResume}
+                  aria-label="Upload or link a different resume PDF"
+                  title="Upload or link a custom resume PDF"
+                  className="inline-flex min-h-[46px] w-11 items-center justify-center rounded-r-lg border border-l-0 border-white/25 bg-[#101c30] text-white/80 transition-colors hover:border-[#f47721] hover:bg-[#f47721] hover:text-[#101c30] cursor-pointer"
+                >
+                  <FileUp className="h-4 w-4" aria-hidden="true" />
+                </button>
+              </div>
 
               <button
                 type="button"
@@ -183,8 +211,30 @@ export function HeroSection({
               </button>
             </div>
 
-            {/* Social Media Icons */}
-            <div className="mt-8 flex items-center gap-3">
+            {/* Direct Call, WhatsApp Call & Social Links */}
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              {telHref && (
+                <a
+                  href={telHref}
+                  aria-label={`Call ${contact.phone}`}
+                  className="group inline-flex h-11 items-center gap-2 rounded-lg border border-[#f47721]/45 bg-[#172942] px-3.5 text-xs font-semibold text-white whitespace-nowrap transition-all duration-150 hover:-translate-y-0.5 hover:border-[#f47721] hover:bg-[#f47721] hover:text-[#101c30]"
+                >
+                  <Phone className="h-4 w-4 text-[#f47721] transition-colors group-hover:text-[#101c30]" aria-hidden="true" />
+                  <span>Call Now</span>
+                </a>
+              )}
+              {whatsAppHref && (
+                <a
+                  href={whatsAppHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="WhatsApp Call and Chat"
+                  className="group inline-flex h-11 items-center gap-2 rounded-lg border border-[#f47721]/45 bg-[#172942] px-3.5 text-xs font-semibold text-white whitespace-nowrap transition-all duration-150 hover:-translate-y-0.5 hover:border-[#f47721] hover:bg-[#f47721] hover:text-[#101c30]"
+                >
+                  <WhatsAppIcon className="h-4 w-4 text-[#f47721] transition-colors group-hover:text-[#101c30]" />
+                  <span>WhatsApp Call</span>
+                </a>
+              )}
               <a
                 href={safeLinkedIn}
                 target="_blank"
@@ -202,15 +252,6 @@ export function HeroSection({
                 className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-white/15 bg-[#172942] text-white transition-all duration-150 hover:-translate-y-0.5 hover:border-[#f47721] hover:bg-[#f47721] hover:text-[#101c30]"
               >
                 <GitHubIcon className="h-4 w-4" />
-              </a>
-              <a
-                href={whatsAppHref}
-                target={cleanWhatsApp ? '_blank' : undefined}
-                rel={cleanWhatsApp ? 'noopener noreferrer' : undefined}
-                aria-label="WhatsApp Contact"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-white/15 bg-[#172942] text-white transition-all duration-150 hover:-translate-y-0.5 hover:border-[#f47721] hover:bg-[#f47721] hover:text-[#101c30]"
-              >
-                <WhatsAppIcon className="h-4 w-4" />
               </a>
               <a
                 href={`mailto:${contact.email}`}
