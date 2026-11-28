@@ -6,8 +6,8 @@ A modern, responsive personal portfolio website built for **Sunil Muneshwar**, I
 
 All styling follows the core CSS custom properties defined in `src/index.css`:
 
-- `--primary: #101c30` (Primary navy)
-- `--secondary: #172942` (Secondary navy slate)
+- `--primary: #092147` (Primary navy)
+- `--secondary: #1A488E` (Secondary navy slate)
 - `--orange: #f47721` (Vibrant orange accent)
 - `--white: #ffffff` (Primary light surface)
 - `--light: #f5f7fa` (Alternating light section background)

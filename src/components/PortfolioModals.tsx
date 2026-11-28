@@ -48,7 +48,7 @@ function ModalShell({ title, subtitle, onClose, children }: ModalShellProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[#101c30]/65 p-4 backdrop-blur-xs"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[#092147]/65 p-4 backdrop-blur-xs"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-dialog-title"
@@ -56,8 +56,8 @@ function ModalShell({ title, subtitle, onClose, children }: ModalShellProps) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-[#f3dfd0] bg-white shadow-2xl">
-        <div className="flex items-start justify-between gap-4 border-b border-[#f3dfd0] bg-[#101c30] px-6 py-4 text-white">
+      <div className="flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-[#d3e0f2] bg-white shadow-2xl">
+        <div className="flex items-start justify-between gap-4 border-b border-[#d3e0f2] bg-[#092147] px-6 py-4 text-white">
           <div>
             <h2 id="modal-dialog-title" className="text-lg font-bold text-white">
               {title}
@@ -68,7 +68,7 @@ function ModalShell({ title, subtitle, onClose, children }: ModalShellProps) {
             type="button"
             onClick={onClose}
             aria-label="Close modal"
-            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/15 bg-[#172942] text-white transition-colors hover:border-[#f47721] hover:text-[#f47721] cursor-pointer"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-white/15 bg-[#1A488E] text-white transition-colors hover:border-[#97B2DE] hover:text-[#97B2DE] cursor-pointer"
           >
             <X className="h-4 w-4" aria-hidden="true" />
           </button>
@@ -92,23 +92,23 @@ export function ServiceDetailModal({
 }) {
   return (
     <ModalShell title={service.title} subtitle="Service Overview & Key Deliverables" onClose={onClose}>
-      <p className="text-sm leading-relaxed text-[#172942]">{service.detailedOverview}</p>
+      <p className="text-sm leading-relaxed text-[#1A488E]">{service.detailedOverview}</p>
 
-      <h3 className="mt-6 text-xs font-semibold text-[#f47721]">Core Focus Areas</h3>
+      <h3 className="mt-6 text-xs font-semibold text-[#1A488E]">Core Focus Areas</h3>
       <ul className="mt-3 space-y-2.5">
         {service.deliverables.map((item) => (
-          <li key={item} className="flex items-start gap-2.5 text-sm text-[#101c30]">
-            <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#f47721]" aria-hidden="true" />
+          <li key={item} className="flex items-start gap-2.5 text-sm text-[#092147]">
+            <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#1A488E]" aria-hidden="true" />
             <span>{item}</span>
           </li>
         ))}
       </ul>
 
-      <div className="mt-7 flex flex-wrap items-center justify-end gap-3 border-t border-[#f3dfd0] pt-5">
+      <div className="mt-7 flex flex-wrap items-center justify-end gap-3 border-t border-[#d3e0f2] pt-5">
         <button
           type="button"
           onClick={onClose}
-          className="min-h-[42px] rounded-lg border border-[#f3dfd0] px-4 py-2 text-sm font-semibold text-[#101c30] hover:bg-[#fff6ef] cursor-pointer"
+          className="min-h-[42px] rounded-lg border border-[#d3e0f2] px-4 py-2 text-sm font-semibold text-[#092147] hover:bg-[#eef4fc] cursor-pointer"
         >
           Close
         </button>
@@ -118,7 +118,7 @@ export function ServiceDetailModal({
             onClose();
             onInquire(`Service Inquiry: ${service.title}`);
           }}
-          className="min-h-[42px] rounded-lg bg-[#f47721] px-5 py-2 text-sm font-semibold text-[#101c30] hover:bg-[#ff8a3a] cursor-pointer"
+          className="min-h-[42px] rounded-lg bg-[#1A488E] px-5 py-2 text-sm font-semibold text-white hover:bg-[#092147] cursor-pointer"
         >
           Inquire About This Service
         </button>
@@ -147,7 +147,7 @@ export function ProjectDetailModal({
       onClose={onClose}
     >
       {project.thumbnail && (
-        <div className="overflow-hidden rounded-xl border border-[#f3dfd0]">
+        <div className="overflow-hidden rounded-xl border border-[#d3e0f2]">
           <img
             src={project.thumbnail}
             alt={project.title}
@@ -157,16 +157,16 @@ export function ProjectDetailModal({
         </div>
       )}
 
-      <p className="mt-5 text-sm leading-relaxed text-[#101c30]">{project.shortDescription}</p>
+      <p className="mt-5 text-sm leading-relaxed text-[#092147]">{project.shortDescription}</p>
       <p className="mt-3 text-sm leading-relaxed text-[#64748b]">{project.architectureNotes}</p>
 
       {project.outcomes.length > 0 && (
         <>
-          <h3 className="mt-6 text-xs font-semibold text-[#f47721]">Highlights &amp; Scope</h3>
+          <h3 className="mt-6 text-xs font-semibold text-[#1A488E]">Highlights &amp; Scope</h3>
           <ul className="mt-2.5 space-y-2">
             {project.outcomes.map((item, i) => (
-              <li key={i} className="flex items-start gap-2.5 text-sm text-[#101c30]">
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#f47721]" aria-hidden="true" />
+              <li key={i} className="flex items-start gap-2.5 text-sm text-[#092147]">
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-[#1A488E]" aria-hidden="true" />
                 <span>{item}</span>
               </li>
             ))}
@@ -174,19 +174,19 @@ export function ProjectDetailModal({
         </>
       )}
 
-      <div className="mt-5 border-t border-[#f3dfd0] pt-4">
-        <p className="text-xs font-semibold text-[#f47721]">Technologies</p>
+      <div className="mt-5 border-t border-[#d3e0f2] pt-4">
+        <p className="text-xs font-semibold text-[#1A488E]">Technologies</p>
         <p className="mt-1 text-sm text-[#64748b]">{project.technologies.join(' · ')}</p>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[#f3dfd0] pt-5">
+      <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t border-[#d3e0f2] pt-5">
         <div className="flex flex-wrap items-center gap-3">
           {safeLive && (
             <a
               href={safeLive}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-[#f47721] px-4 py-2 text-xs font-semibold text-[#101c30] hover:bg-[#ff8a3a]"
+              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-[#1A488E] px-4 py-2 text-xs font-semibold text-white hover:bg-[#092147]"
             >
               <span>Open Live Link</span>
               <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
@@ -197,7 +197,7 @@ export function ProjectDetailModal({
               href={safeRepo}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-[#101c30] px-4 py-2 text-xs font-semibold text-[#101c30] hover:bg-[#fff6ef]"
+              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-[#092147] px-4 py-2 text-xs font-semibold text-[#092147] hover:bg-[#eef4fc]"
             >
               <span>Documentation / Repo</span>
               <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
@@ -209,14 +209,14 @@ export function ProjectDetailModal({
           <button
             type="button"
             onClick={onEdit}
-            className="min-h-[40px] rounded-lg border border-[#f3dfd0] px-4 py-2 text-xs font-semibold text-[#101c30] hover:border-[#f47721] hover:bg-[#fff6ef] cursor-pointer"
+            className="min-h-[40px] rounded-lg border border-[#d3e0f2] px-4 py-2 text-xs font-semibold text-[#092147] hover:border-[#1A488E] hover:bg-[#eef4fc] cursor-pointer"
           >
             Edit Project
           </button>
           <button
             type="button"
             onClick={onClose}
-            className="min-h-[40px] rounded-lg bg-[#101c30] px-4 py-2 text-xs font-semibold text-white hover:bg-[#172942] cursor-pointer"
+            className="min-h-[40px] rounded-lg bg-[#092147] px-4 py-2 text-xs font-semibold text-white hover:bg-[#1A488E] cursor-pointer"
           >
             Close
           </button>
@@ -265,7 +265,7 @@ export function EditSkillCategoryModal({
                   );
                 }}
                 aria-label="Skill name"
-                className="flex-1 rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+                className="flex-1 rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
               />
               <input
                 type="number"
@@ -281,13 +281,13 @@ export function EditSkillCategoryModal({
                   );
                 }}
                 aria-label={`${skill.name} proficiency percentage`}
-                className="w-20 rounded-lg border border-[#f3dfd0] px-2.5 py-2 text-sm text-[#101c30] tabular-nums focus:border-[#f47721] focus:outline-none"
+                className="w-20 rounded-lg border border-[#d3e0f2] px-2.5 py-2 text-sm text-[#092147] tabular-nums focus:border-[#1A488E] focus:outline-none"
               />
               <button
                 type="button"
                 onClick={() => setSkills((prev) => prev.filter((_, i) => i !== idx))}
                 aria-label={`Remove ${skill.name}`}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#f3dfd0] text-[#101c30] hover:border-[#f47721] hover:bg-[#fff6ef] cursor-pointer"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#d3e0f2] text-[#092147] hover:border-[#1A488E] hover:bg-[#eef4fc] cursor-pointer"
               >
                 <Trash2 className="h-4 w-4" aria-hidden="true" />
               </button>
@@ -295,13 +295,13 @@ export function EditSkillCategoryModal({
           ))}
         </div>
 
-        <div className="flex items-center gap-2 border-t border-[#f3dfd0] pt-4">
+        <div className="flex items-center gap-2 border-t border-[#d3e0f2] pt-4">
           <input
             type="text"
             value={newSkillName}
             onChange={(e) => setNewSkillName(e.target.value)}
             placeholder="Add another skill or tool..."
-            className="flex-1 rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+            className="flex-1 rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
           />
           <button
             type="button"
@@ -314,24 +314,24 @@ export function EditSkillCategoryModal({
               ]);
               setNewSkillName('');
             }}
-            className="inline-flex min-h-[40px] items-center gap-1 rounded-lg border border-[#101c30] px-3.5 py-2 text-xs font-semibold text-[#101c30] hover:bg-[#fff6ef] cursor-pointer"
+            className="inline-flex min-h-[40px] items-center gap-1 rounded-lg border border-[#092147] px-3.5 py-2 text-xs font-semibold text-[#092147] hover:bg-[#eef4fc] cursor-pointer"
           >
-            <Plus className="h-3.5 w-3.5 text-[#f47721]" aria-hidden="true" />
+            <Plus className="h-3.5 w-3.5 text-[#1A488E]" aria-hidden="true" />
             Add
           </button>
         </div>
 
-        <div className="flex justify-end gap-3 border-t border-[#f3dfd0] pt-4">
+        <div className="flex justify-end gap-3 border-t border-[#d3e0f2] pt-4">
           <button
             type="button"
             onClick={onClose}
-            className="min-h-[42px] rounded-lg border border-[#f3dfd0] px-4 py-2 text-sm font-semibold text-[#101c30] hover:bg-[#fff6ef] cursor-pointer"
+            className="min-h-[42px] rounded-lg border border-[#d3e0f2] px-4 py-2 text-sm font-semibold text-[#092147] hover:bg-[#eef4fc] cursor-pointer"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="min-h-[42px] rounded-lg bg-[#f47721] px-5 py-2 text-sm font-semibold text-[#101c30] hover:bg-[#ff8a3a] cursor-pointer"
+            className="min-h-[42px] rounded-lg bg-[#1A488E] px-5 py-2 text-sm font-semibold text-white hover:bg-[#092147] cursor-pointer"
           >
             Save Changes
           </button>
@@ -396,72 +396,72 @@ export function EditExperienceModal({
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">Job Title</label>
+            <label className="block text-xs font-semibold text-[#092147]">Job Title</label>
             <input
               type="text"
               required
               value={roleTitle}
               onChange={(e) => setRoleTitle(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">Company Name</label>
+            <label className="block text-xs font-semibold text-[#092147]">Company Name</label>
             <input
               type="text"
               required
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">Employment Period</label>
+            <label className="block text-xs font-semibold text-[#092147]">Employment Period</label>
             <input
               type="text"
               required
               value={period}
               onChange={(e) => setPeriod(e.target.value)}
               placeholder="e.g., 2018 – Present"
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">Location</label>
+            <label className="block text-xs font-semibold text-[#092147]">Location</label>
             <input
               type="text"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-[#101c30]">
+          <label className="block text-xs font-semibold text-[#092147]">
             Key Responsibilities (one per line)
           </label>
           <textarea
             rows={4}
             value={responsibilitiesText}
             onChange={(e) => setResponsibilitiesText(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-[#101c30]">
+          <label className="block text-xs font-semibold text-[#092147]">
             Technical Achievements (one per line)
           </label>
           <textarea
             rows={3}
             value={achievementsText}
             onChange={(e) => setAchievementsText(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
           />
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#f3dfd0] pt-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#d3e0f2] pt-4">
           {!isNew && onDelete ? (
             <button
               type="button"
@@ -469,7 +469,7 @@ export function EditExperienceModal({
                 onDelete(experience.id);
                 onClose();
               }}
-              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-[#f3dfd0] px-3.5 py-2 text-xs font-semibold text-[#101c30] hover:border-[#f47721] hover:bg-[#fff6ef] cursor-pointer"
+              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-[#d3e0f2] px-3.5 py-2 text-xs font-semibold text-[#092147] hover:border-[#1A488E] hover:bg-[#eef4fc] cursor-pointer"
             >
               <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
               Delete Entry
@@ -482,13 +482,13 @@ export function EditExperienceModal({
             <button
               type="button"
               onClick={onClose}
-              className="min-h-[42px] rounded-lg border border-[#f3dfd0] px-4 py-2 text-sm font-semibold text-[#101c30] hover:bg-[#fff6ef] cursor-pointer"
+              className="min-h-[42px] rounded-lg border border-[#d3e0f2] px-4 py-2 text-sm font-semibold text-[#092147] hover:bg-[#eef4fc] cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="min-h-[42px] rounded-lg bg-[#f47721] px-5 py-2 text-sm font-semibold text-[#101c30] hover:bg-[#ff8a3a] cursor-pointer"
+              className="min-h-[42px] rounded-lg bg-[#1A488E] px-5 py-2 text-sm font-semibold text-white hover:bg-[#092147] cursor-pointer"
             >
               Save Experience
             </button>
@@ -575,21 +575,21 @@ export function EditProjectModal({
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">Project Name</label>
+            <label className="block text-xs font-semibold text-[#092147]">Project Name</label>
             <input
               type="text"
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">Category</label>
+            <label className="block text-xs font-semibold text-[#092147]">Category</label>
             <select
               value={category}
               onChange={(e) => setCategory(e.target.value as ProjectCategory)}
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] bg-white px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] bg-white px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             >
               {PROJECT_CATEGORIES.map((cat) => (
                 <option key={cat} value={cat}>
@@ -601,42 +601,42 @@ export function EditProjectModal({
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-[#101c30]">Short Description</label>
+          <label className="block text-xs font-semibold text-[#092147]">Short Description</label>
           <textarea
             rows={2}
             required
             value={shortDescription}
             onChange={(e) => setShortDescription(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-[#101c30]">
+          <label className="block text-xs font-semibold text-[#092147]">
             Architecture / Overview
           </label>
           <textarea
             rows={2}
             value={architectureNotes}
             onChange={(e) => setArchitectureNotes(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-[#101c30]">
+          <label className="block text-xs font-semibold text-[#092147]">
             Key Outcomes (one per line)
           </label>
           <textarea
             rows={3}
             value={outcomesText}
             onChange={(e) => setOutcomesText(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-[#101c30]">
+          <label className="block text-xs font-semibold text-[#092147]">
             Technologies (comma-separated)
           </label>
           <input
@@ -644,13 +644,13 @@ export function EditProjectModal({
             value={techText}
             onChange={(e) => setTechText(e.target.value)}
             placeholder="VMware vSphere, ESXi, Azure Backup"
-            className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
           />
         </div>
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">
+            <label className="block text-xs font-semibold text-[#092147]">
               Live URL (optional, https://)
             </label>
             <input
@@ -658,11 +658,11 @@ export function EditProjectModal({
               value={liveUrl}
               onChange={(e) => setLiveUrl(e.target.value)}
               placeholder="https://example.com"
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">
+            <label className="block text-xs font-semibold text-[#092147]">
               Repo / Case Study URL (optional)
             </label>
             <input
@@ -670,7 +670,7 @@ export function EditProjectModal({
               value={repoUrl}
               onChange={(e) => setRepoUrl(e.target.value)}
               placeholder="https://github.com/..."
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
         </div>
@@ -680,18 +680,18 @@ export function EditProjectModal({
             type="checkbox"
             checked={!isSampleTemplate}
             onChange={(e) => setIsSampleTemplate(!e.target.checked)}
-            className="h-4 w-4 accent-[#f47721]"
+            className="h-4 w-4 accent-[#1A488E]"
           />
           <span>Mark as my completed project (removes the &ldquo;Sample Template&rdquo; label)</span>
         </label>
 
         {urlError && (
-          <p role="alert" className="text-xs font-semibold text-[#c2540a]">
+          <p role="alert" className="text-xs font-semibold text-[#b91c1c]">
             {urlError}
           </p>
         )}
 
-        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#f3dfd0] pt-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#d3e0f2] pt-4">
           {!isNew && onDelete ? (
             <button
               type="button"
@@ -699,7 +699,7 @@ export function EditProjectModal({
                 onDelete(project.id);
                 onClose();
               }}
-              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-[#f3dfd0] px-3.5 py-2 text-xs font-semibold text-[#101c30] hover:border-[#f47721] hover:bg-[#fff6ef] cursor-pointer"
+              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-[#d3e0f2] px-3.5 py-2 text-xs font-semibold text-[#092147] hover:border-[#1A488E] hover:bg-[#eef4fc] cursor-pointer"
             >
               <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
               Delete Project
@@ -712,13 +712,13 @@ export function EditProjectModal({
             <button
               type="button"
               onClick={onClose}
-              className="min-h-[42px] rounded-lg border border-[#f3dfd0] px-4 py-2 text-sm font-semibold text-[#101c30] hover:bg-[#fff6ef] cursor-pointer"
+              className="min-h-[42px] rounded-lg border border-[#d3e0f2] px-4 py-2 text-sm font-semibold text-[#092147] hover:bg-[#eef4fc] cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="min-h-[42px] rounded-lg bg-[#f47721] px-5 py-2 text-sm font-semibold text-[#101c30] hover:bg-[#ff8a3a] cursor-pointer"
+              className="min-h-[42px] rounded-lg bg-[#1A488E] px-5 py-2 text-sm font-semibold text-white hover:bg-[#092147] cursor-pointer"
             >
               Save Project
             </button>
@@ -801,26 +801,26 @@ export function EditCertificationModal({
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Image Uploader */}
-        <div className="rounded-xl border border-[#f3dfd0] bg-[#fff6ef] p-4">
+        <div className="rounded-xl border border-[#d3e0f2] bg-[#eef4fc] p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-semibold text-[#101c30]">Certificate Image / Badge</p>
+              <p className="text-xs font-semibold text-[#092147]">Certificate Image / Badge</p>
               <p className="text-xs text-[#64748b]">JPG, PNG, or WebP (max 2 MB)</p>
             </div>
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => fileRef.current?.click()}
-                className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg bg-[#101c30] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#172942] cursor-pointer"
+                className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg bg-[#092147] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#1A488E] cursor-pointer"
               >
-                <ImagePlus className="h-3.5 w-3.5 text-[#f47721]" aria-hidden="true" />
+                <ImagePlus className="h-3.5 w-3.5 text-[#1A488E]" aria-hidden="true" />
                 {certificateImage ? 'Replace Image' : 'Upload Image'}
               </button>
               {certificateImage && (
                 <button
                   type="button"
                   onClick={() => setCertificateImage(undefined)}
-                  className="inline-flex min-h-[38px] items-center gap-1 rounded-lg border border-[#f3dfd0] bg-white px-3 py-2 text-xs font-semibold text-[#101c30] hover:bg-[#fff6ef] cursor-pointer"
+                  className="inline-flex min-h-[38px] items-center gap-1 rounded-lg border border-[#d3e0f2] bg-white px-3 py-2 text-xs font-semibold text-[#092147] hover:bg-[#eef4fc] cursor-pointer"
                 >
                   <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
                   Remove
@@ -833,7 +833,7 @@ export function EditCertificationModal({
             <img
               src={certificateImage}
               alt="Uploaded certificate preview"
-              className="mt-3 max-h-44 w-full rounded-lg border border-[#f3dfd0] object-contain bg-white"
+              className="mt-3 max-h-44 w-full rounded-lg border border-[#d3e0f2] object-contain bg-white"
             />
           )}
 
@@ -848,7 +848,7 @@ export function EditCertificationModal({
 
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">
+            <label className="block text-xs font-semibold text-[#092147]">
               Certification Title
             </label>
             <input
@@ -856,32 +856,32 @@ export function EditCertificationModal({
               required
               value={trackTitle}
               onChange={(e) => setTrackTitle(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">
+            <label className="block text-xs font-semibold text-[#092147]">
               Issuing Organization
             </label>
             <input
               type="text"
               value={issuer}
               onChange={(e) => setIssuer(e.target.value)}
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">Issue Date / Year</label>
+            <label className="block text-xs font-semibold text-[#092147]">Issue Date / Year</label>
             <input
               type="text"
               value={issueDate}
               onChange={(e) => setIssueDate(e.target.value)}
               placeholder="e.g., March 2025"
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">
+            <label className="block text-xs font-semibold text-[#092147]">
               Credential ID (optional)
             </label>
             <input
@@ -889,13 +889,13 @@ export function EditCertificationModal({
               value={credentialId}
               onChange={(e) => setCredentialId(e.target.value)}
               placeholder="e.g., AZ-104-XXXX"
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-[#101c30]">
+          <label className="block text-xs font-semibold text-[#092147]">
             Credential Verification URL (optional, https://)
           </label>
           <input
@@ -903,39 +903,39 @@ export function EditCertificationModal({
             value={credentialUrl}
             onChange={(e) => setCredentialUrl(e.target.value)}
             placeholder="https://learn.microsoft.com/..."
-            className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-[#101c30]">
+          <label className="block text-xs font-semibold text-[#092147]">
             Summary / Training Notes
           </label>
           <textarea
             rows={2}
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
           />
         </div>
 
         {error && (
-          <p role="alert" className="text-xs font-semibold text-[#c2540a]">
+          <p role="alert" className="text-xs font-semibold text-[#b91c1c]">
             {error}
           </p>
         )}
 
-        <div className="flex justify-end gap-3 border-t border-[#f3dfd0] pt-4">
+        <div className="flex justify-end gap-3 border-t border-[#d3e0f2] pt-4">
           <button
             type="button"
             onClick={onClose}
-            className="min-h-[42px] rounded-lg border border-[#f3dfd0] px-4 py-2 text-sm font-semibold text-[#101c30] hover:bg-[#fff6ef] cursor-pointer"
+            className="min-h-[42px] rounded-lg border border-[#d3e0f2] px-4 py-2 text-sm font-semibold text-[#092147] hover:bg-[#eef4fc] cursor-pointer"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="min-h-[42px] rounded-lg bg-[#f47721] px-5 py-2 text-sm font-semibold text-[#101c30] hover:bg-[#ff8a3a] cursor-pointer"
+            className="min-h-[42px] rounded-lg bg-[#1A488E] px-5 py-2 text-sm font-semibold text-white hover:bg-[#092147] cursor-pointer"
           >
             Save Credential
           </button>
@@ -990,35 +990,35 @@ export function EditContactModal({
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">Email Address</label>
+            <label className="block text-xs font-semibold text-[#092147]">Email Address</label>
             <input
               type="email"
               required
               value={values.email}
               onChange={(e) => setValues((p) => ({ ...p, email: e.target.value }))}
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">Phone Number</label>
+            <label className="block text-xs font-semibold text-[#092147]">Phone Number</label>
             <input
               type="text"
               value={values.phone}
               onChange={(e) => setValues((p) => ({ ...p, phone: e.target.value }))}
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">Location</label>
+            <label className="block text-xs font-semibold text-[#092147]">Location</label>
             <input
               type="text"
               value={values.location}
               onChange={(e) => setValues((p) => ({ ...p, location: e.target.value }))}
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-[#101c30]">
+            <label className="block text-xs font-semibold text-[#092147]">
               WhatsApp Number (with country code)
             </label>
             <input
@@ -1026,50 +1026,50 @@ export function EditContactModal({
               value={values.whatsappNumber}
               onChange={(e) => setValues((p) => ({ ...p, whatsappNumber: e.target.value }))}
               placeholder="+919876543210"
-              className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+              className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-[#101c30]">LinkedIn Profile URL</label>
+          <label className="block text-xs font-semibold text-[#092147]">LinkedIn Profile URL</label>
           <input
             type="url"
             value={values.linkedinUrl}
             onChange={(e) => setValues((p) => ({ ...p, linkedinUrl: e.target.value }))}
             placeholder="https://www.linkedin.com/in/..."
-            className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-[#101c30]">GitHub Profile URL</label>
+          <label className="block text-xs font-semibold text-[#092147]">GitHub Profile URL</label>
           <input
             type="url"
             value={values.githubUrl}
             onChange={(e) => setValues((p) => ({ ...p, githubUrl: e.target.value }))}
             placeholder="https://github.com/..."
-            className="mt-1 w-full rounded-lg border border-[#f3dfd0] px-3 py-2 text-sm text-[#101c30] focus:border-[#f47721] focus:outline-none"
+            className="mt-1 w-full rounded-lg border border-[#d3e0f2] px-3 py-2 text-sm text-[#092147] focus:border-[#1A488E] focus:outline-none"
           />
         </div>
 
         {error && (
-          <p role="alert" className="text-xs font-semibold text-[#c2540a]">
+          <p role="alert" className="text-xs font-semibold text-[#b91c1c]">
             {error}
           </p>
         )}
 
-        <div className="flex justify-end gap-3 border-t border-[#f3dfd0] pt-4">
+        <div className="flex justify-end gap-3 border-t border-[#d3e0f2] pt-4">
           <button
             type="button"
             onClick={onClose}
-            className="min-h-[42px] rounded-lg border border-[#f3dfd0] px-4 py-2 text-sm font-semibold text-[#101c30] hover:bg-[#fff6ef] cursor-pointer"
+            className="min-h-[42px] rounded-lg border border-[#d3e0f2] px-4 py-2 text-sm font-semibold text-[#092147] hover:bg-[#eef4fc] cursor-pointer"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="min-h-[42px] rounded-lg bg-[#f47721] px-5 py-2 text-sm font-semibold text-[#101c30] hover:bg-[#ff8a3a] cursor-pointer"
+            className="min-h-[42px] rounded-lg bg-[#1A488E] px-5 py-2 text-sm font-semibold text-white hover:bg-[#092147] cursor-pointer"
           >
             Save Details
           </button>
@@ -1187,14 +1187,14 @@ export function PortfolioCustomizerModal({
       onClose={onClose}
     >
       {/* Resume PDF Upload / Hosted Link Section */}
-      <div className="rounded-xl border border-[#f3dfd0] bg-[#fff6ef] p-4">
+      <div className="rounded-xl border border-[#d3e0f2] bg-[#eef4fc] p-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#101c30] text-[#f47721]">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#092147] text-[#97B2DE]">
               <FileText className="h-4 w-4" aria-hidden="true" />
             </div>
             <div>
-              <p className="text-xs font-bold text-[#101c30]">Resume PDF File</p>
+              <p className="text-xs font-bold text-[#092147]">Resume PDF File</p>
               <p className="text-xs text-[#64748b]">
                 Active file: {state.resumeFileName || 'Sunil-Govind-Muneshwar-Resume.pdf'}
               </p>
@@ -1205,7 +1205,7 @@ export function PortfolioCustomizerModal({
             <button
               type="button"
               onClick={() => resumeFileRef.current?.click()}
-              className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg bg-[#f47721] px-3.5 py-2 text-xs font-semibold text-[#101c30] hover:bg-[#ff8a3a] cursor-pointer"
+              className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg bg-[#1A488E] px-3.5 py-2 text-xs font-semibold text-white hover:bg-[#092147] cursor-pointer"
             >
               <Upload className="h-3.5 w-3.5" aria-hidden="true" />
               Upload PDF
@@ -1219,9 +1219,9 @@ export function PortfolioCustomizerModal({
               }
               target={/^https?:\/\//i.test(activeResumeUrl) ? '_blank' : undefined}
               rel={/^https?:\/\//i.test(activeResumeUrl) ? 'noopener noreferrer' : undefined}
-              className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg border border-[#101c30] bg-white px-3 py-2 text-xs font-semibold text-[#101c30] hover:bg-[#fff6ef]"
+              className="inline-flex min-h-[38px] items-center gap-1.5 rounded-lg border border-[#092147] bg-white px-3 py-2 text-xs font-semibold text-[#092147] hover:bg-[#eef4fc]"
             >
-              <Download className="h-3.5 w-3.5 text-[#f47721]" aria-hidden="true" />
+              <Download className="h-3.5 w-3.5 text-[#1A488E]" aria-hidden="true" />
               Test Download
             </a>
           </div>
@@ -1237,11 +1237,11 @@ export function PortfolioCustomizerModal({
             }}
             placeholder="https://example.com/sunil-resume.pdf or /assets/..."
             aria-label="Hosted Resume PDF URL"
-            className="flex-1 rounded-lg border border-[#f3dfd0] bg-white px-3 py-2 text-xs text-[#101c30] focus:border-[#f47721] focus:outline-none"
+            className="flex-1 rounded-lg border border-[#d3e0f2] bg-white px-3 py-2 text-xs text-[#092147] focus:border-[#1A488E] focus:outline-none"
           />
           <button
             type="submit"
-            className="inline-flex min-h-[38px] items-center justify-center rounded-lg bg-[#101c30] px-4 py-2 text-xs font-semibold text-white hover:bg-[#172942] cursor-pointer"
+            className="inline-flex min-h-[38px] items-center justify-center rounded-lg bg-[#092147] px-4 py-2 text-xs font-semibold text-white hover:bg-[#1A488E] cursor-pointer"
           >
             Save Link
           </button>
@@ -1253,7 +1253,7 @@ export function PortfolioCustomizerModal({
               setResumeError(null);
               setStatusMessage('Restored default Sunil Govind Muneshwar Resume PDF.');
             }}
-            className="inline-flex min-h-[38px] items-center justify-center rounded-lg border border-[#f3dfd0] bg-white px-3 py-2 text-xs font-semibold text-[#101c30] hover:border-[#f47721] cursor-pointer"
+            className="inline-flex min-h-[38px] items-center justify-center rounded-lg border border-[#d3e0f2] bg-white px-3 py-2 text-xs font-semibold text-[#092147] hover:border-[#1A488E] cursor-pointer"
           >
             Default PDF
           </button>
@@ -1269,7 +1269,7 @@ export function PortfolioCustomizerModal({
         />
 
         {resumeError && (
-          <p role="alert" className="mt-2 text-xs font-semibold text-[#c2540a]">
+          <p role="alert" className="mt-2 text-xs font-semibold text-[#b91c1c]">
             {resumeError}
           </p>
         )}
@@ -1285,18 +1285,18 @@ export function PortfolioCustomizerModal({
         <button
           type="button"
           onClick={handleExport}
-          className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-[#101c30] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#172942] cursor-pointer"
+          className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-[#092147] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#1A488E] cursor-pointer"
         >
-          <Download className="h-4 w-4 text-[#f47721]" aria-hidden="true" />
+          <Download className="h-4 w-4 text-[#1A488E]" aria-hidden="true" />
           Export JSON
         </button>
 
         <button
           type="button"
           onClick={() => importRef.current?.click()}
-          className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-[#101c30] bg-white px-4 py-2.5 text-xs font-semibold text-[#101c30] hover:bg-[#fff6ef] cursor-pointer"
+          className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-[#092147] bg-white px-4 py-2.5 text-xs font-semibold text-[#092147] hover:bg-[#eef4fc] cursor-pointer"
         >
-          <Upload className="h-4 w-4 text-[#f47721]" aria-hidden="true" />
+          <Upload className="h-4 w-4 text-[#1A488E]" aria-hidden="true" />
           Import JSON
         </button>
 
@@ -1307,9 +1307,9 @@ export function PortfolioCustomizerModal({
             setResumeUrlInput(DEFAULT_RESUME_URL);
             setStatusMessage('Restored default portfolio templates.');
           }}
-          className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-[#f3dfd0] bg-white px-4 py-2.5 text-xs font-semibold text-[#101c30] hover:border-[#f47721] hover:bg-[#fff6ef] cursor-pointer"
+          className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-[#d3e0f2] bg-white px-4 py-2.5 text-xs font-semibold text-[#092147] hover:border-[#1A488E] hover:bg-[#eef4fc] cursor-pointer"
         >
-          <RotateCcw className="h-4 w-4 text-[#f47721]" aria-hidden="true" />
+          <RotateCcw className="h-4 w-4 text-[#1A488E]" aria-hidden="true" />
           Reset Defaults
         </button>
       </div>
@@ -1325,7 +1325,7 @@ export function PortfolioCustomizerModal({
       {statusMessage && (
         <p
           role="status"
-          className="mt-4 rounded-lg bg-[#fff6ef] border border-[#f3dfd0] px-4 py-2.5 text-xs font-medium text-[#101c30]"
+          className="mt-4 rounded-lg bg-[#eef4fc] border border-[#d3e0f2] px-4 py-2.5 text-xs font-medium text-[#092147]"
         >
           {statusMessage}
         </p>

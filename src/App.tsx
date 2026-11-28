@@ -174,10 +174,10 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#101c30]">
+    <div className="min-h-screen bg-[#1B365D] text-white">
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-lg focus:bg-[#f47721] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#101c30]"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-lg focus:bg-[#1A488E] focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
       >
         Skip to main content
       </a>

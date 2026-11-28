@@ -1,32 +1,34 @@
 @import "tailwindcss";
 
 :root {
-  --primary: #101c30;
-  --secondary: #172942;
-  --orange: #f47721;
+  --primary: #092147;
+  --bg-navy: #1B365D;
+  --secondary: #1A488E;
+  --cobalt-light: #97B2DE;
+  --accent: #1A488E;
+  --accent-hover: #092147;
   --white: #ffffff;
-  --light: #fff6ef;
-  --light-soft: #ffefe2;
-  --text: #5a6577;
+  --light: #eef4fc;
+  --light-soft: #dce8f8;
+  --text: #3b557a;
 
-  --orange-hover: #d96414;
-  --border-color: #f3dfd0;
-  --shadow-color: rgba(244, 119, 33, 0.14);
+  --border-color: #c5d6ee;
+  --shadow-color: rgba(6, 17, 36, 0.34);
 }
 
 @layer base {
   html {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     scroll-behavior: smooth;
-    color: var(--primary);
-    background-color: var(--white);
+    color: var(--white);
+    background-color: var(--bg-navy);
     overflow-x: clip;
   }
 
   body {
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    color: var(--primary);
-    background-color: var(--white);
+    color: var(--white);
+    background-color: var(--bg-navy);
     overflow-x: clip;
   }
 
@@ -35,29 +37,29 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--orange);
+    outline: 2px solid var(--cobalt-light);
     outline-offset: 2px;
   }
 }
 
-/* Deep navy hero enriched with warm orange atmospheric glow */
+/* Deep Navy #1B365D hero background with subtle cobalt ambient depth */
 .hero-orange-bg {
-  background-color: var(--primary);
+  background-color: var(--bg-navy);
   background-image:
-    radial-gradient(640px circle at 82% 28%, rgba(244, 119, 33, 0.24), transparent 62%),
-    radial-gradient(520px circle at 12% 85%, rgba(244, 119, 33, 0.14), transparent 60%),
-    linear-gradient(135deg, #101c30 0%, #172942 52%, #1d2436 100%);
+    radial-gradient(680px circle at 84% 24%, rgba(151, 178, 222, 0.24), transparent 60%),
+    radial-gradient(560px circle at 12% 84%, rgba(26, 72, 142, 0.48), transparent 62%),
+    linear-gradient(135deg, #132847 0%, #1B365D 58%, #163056 100%);
 }
 
-/* Warm apricot-ivory alternating section background matching #f47721 orange */
+/* Primary #1B365D section background */
 .warm-section-bg {
-  background-color: var(--light);
-  background-image: linear-gradient(180deg, #fff6ef 0%, #fffaf6 100%);
+  background-color: var(--bg-navy);
+  background-image: linear-gradient(180deg, #1B365D 0%, #183257 100%);
 }
 
-/* Orange animated headline gradient */
+/* Cobalt Blue animated headline gradient (#97B2DE -> crisp ice white -> #97B2DE) */
 .accent-gradient-text {
-  background: linear-gradient(90deg, #f47721 0%, #ffa35c 48%, #f47721 100%);
+  background: linear-gradient(90deg, #97B2DE 0%, #e4effd 48%, #97B2DE 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
@@ -130,17 +132,17 @@
 
 .portfolio-card:hover {
   transform: translateY(-4px);
-  border-color: var(--orange);
-  box-shadow: 0 20px 38px -16px rgba(244, 119, 33, 0.24);
+  border-color: var(--secondary);
+  box-shadow: 0 20px 38px -16px rgba(26, 72, 142, 0.24);
 }
 
-/* Glass floating badge cards on warm-lit navy hero */
+/* Glass floating badge cards on Cobalt Blue hero */
 .glass-navy-card {
-  background: rgba(23, 41, 66, 0.84);
+  background: rgba(9, 33, 71, 0.78);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(244, 119, 33, 0.28);
-  box-shadow: 0 14px 28px -12px rgba(0, 0, 0, 0.42);
+  border: 1px solid rgba(151, 178, 222, 0.36);
+  box-shadow: 0 14px 28px -12px rgba(5, 18, 40, 0.48);
 }
 
 /* Reduced motion compliance */
